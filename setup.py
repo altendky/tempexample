@@ -7,9 +7,7 @@ setuptools.setup(
     package_dir={'': 'src'},
     entry_points={
         'gui_scripts': [
-            (
-                'main = pkg.main:main',
-            ),
+            'main = pkg.main:main',
         ],
     },
     install_requires=[
