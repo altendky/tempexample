@@ -1,0 +1,59 @@
+From this directory run `bash x.sh` to see the example failure when pyproject.toml is present
+and success otherwise.
+
+https://github.com/pypa/setuptools/issues/1642
+
+
+Here's example output.
+
+python3 -m venv venv
++ python3 -m venv venv
+venv/bin/python -m pip install --upgrade pip==19.0.1 setuptools==40.6.3
++ venv/bin/python -m pip install --upgrade pip==19.0.1 setuptools==40.6.3
+Collecting pip==19.0.1
+  Using cached https://files.pythonhosted.org/packages/46/dc/7fd5df840efb3e56c8b4f768793a237ec4ee59891959d6a215d63f727023/pip-19.0.1-py2.py3-none-any.whl
+Collecting setuptools==40.6.3
+  Using cached https://files.pythonhosted.org/packages/37/06/754589caf971b0d2d48f151c2586f62902d93dc908e2fd9b9b9f6aa3c9dd/setuptools-40.6.3-py2.py3-none-any.whl
+Installing collected packages: pip, setuptools
+  Found existing installation: pip 18.1
+    Uninstalling pip-18.1:
+      Successfully uninstalled pip-18.1
+  Found existing installation: setuptools 40.6.2
+    Uninstalling setuptools-40.6.2:
+      Successfully uninstalled setuptools-40.6.2
+Successfully installed pip-19.0.1 setuptools-40.6.3
+rm pyproject.toml
++ rm pyproject.toml
+venv/bin/python -m pip install --ignore-installed .
++ venv/bin/python -m pip install --ignore-installed .
+Processing /home/altendky/tempexample
+Installing collected packages: pkg
+  Running setup.py install for pkg ... done
+Successfully installed pkg-0.0.0
+touch pyproject.toml
++ touch pyproject.toml
+venv/bin/python -m pip install --ignore-installed .
++ venv/bin/python -m pip install --ignore-installed .
+Processing /home/altendky/tempexample
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... error
+  Complete output from command /home/altendky/tempexample/venv/bin/python /home/altendky/tempexample/venv/lib/python3.7/site-packages/pip/_vendor/pep517/_in_process.py get_requires_for_build_wheel /tmp/tmptq1h87o9:
+  Traceback (most recent call last):
+    File "/home/altendky/tempexample/venv/lib/python3.7/site-packages/pip/_vendor/pep517/_in_process.py", line 207, in <module>
+      main()
+    File "/home/altendky/tempexample/venv/lib/python3.7/site-packages/pip/_vendor/pep517/_in_process.py", line 197, in main
+      json_out['return_val'] = hook(**hook_input['kwargs'])
+    File "/home/altendky/tempexample/venv/lib/python3.7/site-packages/pip/_vendor/pep517/_in_process.py", line 54, in get_requires_for_build_wheel
+      return hook(config_settings)
+    File "/tmp/pip-build-env-3pas05w4/overlay/lib/python3.7/site-packages/setuptools/build_meta.py", line 115, in get_requires_for_build_wheel
+      return _get_build_requires(config_settings, requirements=['wheel'])
+    File "/tmp/pip-build-env-3pas05w4/overlay/lib/python3.7/site-packages/setuptools/build_meta.py", line 101, in _get_build_requires
+      _run_setup()
+    File "/tmp/pip-build-env-3pas05w4/overlay/lib/python3.7/site-packages/setuptools/build_meta.py", line 85, in _run_setup
+      exec(compile(code, __file__, 'exec'), locals())
+    File "setup.py", line 3, in <module>
+      import pkg
+  ModuleNotFoundError: No module named 'pkg'
+  
+  ----------------------------------------
+Command "/home/altendky/tempexample/venv/bin/python /home/altendky/tempexample/venv/lib/python3.7/site-packages/pip/_vendor/pep517/_in_process.py get_requires_for_build_wheel /tmp/tmptq1h87o9" failed with error code 1 in /tmp/pip-req-build-3ek7dus1
